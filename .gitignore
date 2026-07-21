@@ -1,0 +1,47 @@
+###############################################################################
+# ASLDVSCTL Git Ignore
+###############################################################################
+
+# Runtime
+runtime/state/*
+runtime/commands/*
+runtime/modes/*
+runtime/networks/*
+
+# Keep directories
+!runtime/state/.keep
+!runtime/commands/.keep
+!runtime/modes/.keep
+!runtime/networks/.keep
+
+# State
+state/*
+!state/.keep
+
+# Backups
+backups/
+
+# Staging
+staging/
+
+# Logs
+*.log
+logs/
+
+# Temporary
+*.tmp
+*.bak
+*.orig
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+#
+###############################################################################
+# ASLDVSCTL
+# Main Program
+###############################################################################
+
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+###############################################################################
+# Load Libraries
+###############################################################################
+
+source "${PROJECT_ROOT}/lib/common.sh"
+
+source "${LIB_DIR}/paths.sh"
+source "${LIB_DIR}/logging.sh"
+source "${LIB_DIR}/system.sh"
+source "${LIB_DIR}/services.sh"
+source "${LIB_DIR}/state.sh"
+source "${LIB_DIR}/filesystem.sh"
+source "${LIB_DIR}/config.sh"
+source "${LIB_DIR}/checks.sh"
+source "${LIB_DIR}/profiles.sh"
+source "${LIB_DIR}/bridge.sh"
+source "${LIB_DIR}/ini.sh"
+
+###############################################################################
+# Load Commands
+###############################################################################
+
+for cmd in "${COMMAND_DIR}"/*.sh; do
+    # shellcheck source=/dev/null
+    source "$cmd"
+done
+
+###############################################################################
+# Main
+###############################################################################
+
+main() {
+
+    load_config
+
+    local command="${1:-help}"
+    shift || true
+
+    case "$command" in
+        help|-h|--help)
+            command_help
+            ;;
+
+        version|-v|--version)
+            command_version "$@"
+            ;;
+
+        status)
+            command_status "$@"
+            ;;
+
+        check)
+            command_check "$@"
+            ;;
+
+        profile)
+            command_profile "$@"
+            ;;
+
+        apply)
+            command_apply "$@"
+            ;;
+
+        mode)
+            command_mode "$@"
+            ;;
+
+        tg)
+            command_tg "$@"
+            ;;
+
+        *)
+            log_error "Unknown command: $command"
+            echo
+            command_help
+            exit 1
+            ;;
+    esac
+}
+
+###############################################################################
+# Usage
+###############################################################################
+
+usage() {
+
+cat <<EOF
+
+ASLDVSCTL ${ASLDVSCTL_VERSION}
+
+Usage:
+
+  asldvsctl COMMAND [options]
+
+Commands
+
+  help
+  version
+  status
+
+  apply
+  profile
+
+  mode
+  tg
+  slot
+
+  start
+  stop
+  restart
+
+  backup
+  restore
+
+  update
+  verify
+
+EOF
+
+}
+
+main "$@"
+

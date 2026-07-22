@@ -1,20 +1,43 @@
-mmdvm_services_start()
+#!/usr/bin/env bash
+
+connector_services_start()
 {
-    systemctl restart analog_bridge
-    systemctl restart mmdvm_bridge
-    systemctl restart md380-emu
+    local svc
+
+    for svc in ${SERVICES}
+    do
+        systemctl start "$svc"
+    done
 }
 
-mmdvm_services_stop()
+connector_services_stop()
 {
-    systemctl stop md380-emu
-    systemctl stop mmdvm_bridge
-    systemctl stop analog_bridge
+    local svc
+
+    for svc in ${SERVICES}
+    do
+        systemctl stop "$svc"
+    done
 }
 
-mmdvm_services_status()
+connector_services_restart()
 {
-    systemctl is-active analog_bridge
-    systemctl is-active mmdvm_bridge
-    systemctl is-active md380-emu
+    local svc
+
+    for svc in ${SERVICES}
+    do
+        systemctl restart "$svc"
+    done
+}
+
+connector_services_status()
+{
+    local svc
+
+    for svc in ${SERVICES}
+    do
+        printf "%-18s %s\n" \
+            "$svc" \
+            "$(systemctl is-active "$svc")"
+    done
 }

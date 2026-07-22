@@ -64,6 +64,10 @@ main() {
        connectors)
             command_connectors "$@"
             ;;
+
+       connector)
+            command_connector "$@"
+            ;;
   
         check)
             command_check "$@"
@@ -114,6 +118,7 @@ Commands
   version
   status
   connectors
+  connector
 
   apply
   profile

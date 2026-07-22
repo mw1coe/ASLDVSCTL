@@ -33,6 +33,7 @@ state_save() {
 PROFILE=${PROFILE:-}
 NAME=${NAME:-}
 MODE=${MODE:-}
+CONNECTOR=${CONNECTOR:-}
 TG=${TG:-}
 SLOT=${SLOT:-}
 EOF

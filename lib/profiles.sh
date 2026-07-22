@@ -36,7 +36,56 @@ profile_load() {
 
     # shellcheck source=/dev/null
     source "${PROFILE_DIR}/${profile}.conf"
+
+   ###############################################################################
+   # Legacy Compatibility
+   ###############################################################################
+
+if [[ -z "${MODE:-}" && -n "${TYPE:-}" ]]; then
+    MODE="${TYPE}"
+fi
+
+    ###########################################################################
+    # Connector Compatibility
+    ###########################################################################
+
+    if [[ -z "${CONNECTOR:-}" ]]; then
+
+        case "${MODE:-}" in
+
+            DMR)
+                CONNECTOR="mmdvm"
+                ;;
+
+            YSF)
+                CONNECTOR="ysf"
+                ;;
+
+            NXDN)
+                CONNECTOR="nxdn"
+                ;;
+
+            P25)
+                CONNECTOR="p25"
+                ;;
+
+            M17)
+                CONNECTOR="m17"
+                ;;
+
+        esac
+
+    fi
 }
+
+###############################################################################
+# Legacy Compatibility
+###############################################################################
+
+# Older profiles used TYPE instead of MODE.
+if [[ -z "${MODE:-}" && -n "${TYPE:-}" ]]; then
+    MODE="${TYPE}"
+fi
 
 profile_validate() {
     local ok=1
@@ -52,17 +101,18 @@ profile_validate() {
     }
 
     case "${MODE:-}" in
-        DMR)
-            [[ -n "${TG:-}" ]] || {
-                log_error "Missing TG"
-                ok=0
-            }
+DMR)
+    [[ -n "${ADDRESS:-}" ]] || {
+        log_error "Missing ADDRESS"
+        ok=0
+    }
 
-            [[ -n "${SLOT:-}" ]] || {
-                log_error "Missing SLOT"
-                ok=0
-            }
-            ;;
+    [[ -n "${PORT:-}" ]] || {
+        log_error "Missing PORT"
+        ok=0
+    }
+
+    ;;
 
         YSF|NXDN|P25|M17)
             ;;

@@ -1,10 +1,70 @@
+#!/usr/bin/env bash
+#
+###############################################################################
+# MMDVM Validation
+###############################################################################
+
 connector_validate()
 {
-    [[ -f /opt/MMDVM_Bridge/MMDVM_Bridge.ini ]] || return 1
+    local rc=0
 
-    [[ -f /opt/MMDVM_Bridge/DVSwitch.ini ]] || return 1
+    echo
+    echo "Validation"
+    echo "----------"
 
-    [[ -f /opt/Analog_Bridge/Analog_Bridge.ini ]] || return 1
+    check_file()
+    {
+        if [[ -f "$1" ]]; then
+            printf "  [ OK ] %s\n" "$1"
+        else
+            printf "  [FAIL] %s\n" "$1"
+            rc=1
+        fi
+    }
 
-    return 0
+    check_binary()
+    {
+        if [[ -x "$1" ]]; then
+            printf "  [ OK ] %s\n" "$1"
+        else
+            printf "  [FAIL] %s\n" "$1"
+            rc=1
+        fi
+    }
+
+check_service()
+{
+    if systemctl cat "${1}.service" >/dev/null 2>&1; then
+        printf "  [ OK ] %s.service\n" "$1"
+    else
+        printf "  [FAIL] %s.service\n" "$1"
+        rc=1
+    fi
+}
+
+    #
+    # Configuration
+    #
+
+    check_file "${MMDVM_DIR}/MMDVM_Bridge.ini"
+    check_file "${MMDVM_DIR}/DVSwitch.ini"
+    check_file "${ANALOG_DIR}/Analog_Bridge.ini"
+
+    #
+    # Programs
+    #
+
+    check_binary "${MMDVM_DIR}/MMDVM_Bridge"
+    check_binary "${ANALOG_DIR}/Analog_Bridge"
+
+    #
+    # Services
+    #
+
+    for svc in ${SERVICES}
+    do
+        check_service "$svc"
+    done
+
+    return $rc
 }

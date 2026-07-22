@@ -33,16 +33,6 @@ connector_description()
     echo "${DESCRIPTION}"
 }
 
-connector_validate()
-{
-    return 0
-}
-
-connector_generate()
-{
-    return 0
-}
-
 connector_connect()
 {
     return 0

@@ -13,18 +13,12 @@ readonly ASLDVSCTL_BRIDGE_LOADED=1
 
 bridge_configure_network()
 {
-    [[ -n "${CONNECTOR:-}" ]] || return 1
-
     connector_load "$CONNECTOR" || return 1
-
     connector_generate_network
 }
 
 bridge_configure_runtime()
 {
-    [[ -n "${CONNECTOR:-}" ]] || return 1
-
     connector_load "$CONNECTOR" || return 1
-
     connector_generate_runtime
 }

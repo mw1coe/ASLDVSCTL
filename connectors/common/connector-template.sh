@@ -14,6 +14,7 @@ connector_description() { echo "${DESCRIPTION}"; }
 connector_status()      { echo "${STATUS}"; }
 
 connector_validate()    { return 0; }
-connector_generate()    { return 0; }
+connector_generate_network() { return 0; }
+connector_generate_runtime() { return 0; }
 connector_connect()     { return 0; }
 connector_disconnect()  { return 0; }

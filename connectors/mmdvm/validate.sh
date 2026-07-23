@@ -12,7 +12,7 @@ connector_validate()
     echo "Validation"
     echo "----------"
 
-    check_file()
+_mmdvm_check_file()
     {
         if [[ -f "$1" ]]; then
             printf "  [ OK ] %s\n" "$1"
@@ -22,7 +22,7 @@ connector_validate()
         fi
     }
 
-    check_binary()
+_mmdvm_check_binary()
     {
         if [[ -x "$1" ]]; then
             printf "  [ OK ] %s\n" "$1"
@@ -32,7 +32,7 @@ connector_validate()
         fi
     }
 
-check_service()
+_mmdvm_check_service()
 {
     if systemctl cat "${1}.service" >/dev/null 2>&1; then
         printf "  [ OK ] %s.service\n" "$1"
@@ -46,16 +46,16 @@ check_service()
     # Configuration
     #
 
-    check_file "${MMDVM_DIR}/MMDVM_Bridge.ini"
-    check_file "${MMDVM_DIR}/DVSwitch.ini"
-    check_file "${ANALOG_DIR}/Analog_Bridge.ini"
+    _mmdvm_check_file "$MMDVM_INI"
+    _mmdvm_check_file "$DVSWITCH_INI"
+    _mmdvm_check_file "$ANALOG_INI"
 
     #
     # Programs
     #
 
-    check_binary "${MMDVM_DIR}/MMDVM_Bridge"
-    check_binary "${ANALOG_DIR}/Analog_Bridge"
+    _mmdvm_check_binary "${MMDVM_DIR}/MMDVM_Bridge"
+    _mmdvm_check_binary "${ANALOG_DIR}/Analog_Bridge"
 
     #
     # Services
@@ -63,7 +63,7 @@ check_service()
 
     for svc in ${CONNECTOR_SERVICES}
     do
-        check_service "$svc"
+        _mmdvm_check_service "$svc"
     done
 
     return $rc

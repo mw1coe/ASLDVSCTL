@@ -23,10 +23,14 @@ mmdvm_bridge_write_network()
 {
     log_info "Updating MMDVM_Bridge"
 
-    ini_set "$MMDVM_INI" "DMR Network" "Address" "$ADDRESS"
-    ini_set "$MMDVM_INI" "DMR Network" "Port" "$PORT"
+    ini_set "$MMDVM_INI" "DMR Network" "Address"  "$ADDRESS"
+    ini_set "$MMDVM_INI" "DMR Network" "Port"     "$PORT"
     ini_set "$MMDVM_INI" "DMR Network" "Password" "$PASSWORD"
 }
+
+###############################################################################
+# MMDVM_Bridge - Slot
+###############################################################################
 
 ###############################################################################
 # MMDVM_Bridge - Slot

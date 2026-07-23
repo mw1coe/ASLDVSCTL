@@ -9,8 +9,6 @@ CONNECTOR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${CONNECTOR_DIR}/metadata.conf"
 
 source "${CONNECTOR_DIR}/network.sh"
-source "${CONNECTOR_DIR}/bridge.sh"
-source "${CONNECTOR_DIR}/analog.sh"
 source "${CONNECTOR_DIR}/dvswitch.sh"
 source "${CONNECTOR_DIR}/runtime.sh"
 
@@ -48,3 +46,5 @@ connector_disconnect()
 {
     return 0
 }
+
+

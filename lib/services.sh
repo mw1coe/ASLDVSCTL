@@ -81,8 +81,11 @@ service_restart()
 
 services_restart_runtime()
 {
-    service_restart analog_bridge
-    service_restart mmdvm_bridge
+    local svc
+
+    for svc in ${RUNTIME_SERVICES:-}; do
+        service_restart "$svc" || return 1
+    done
 }
 
 ###############################################################################
@@ -91,9 +94,11 @@ services_restart_runtime()
 
 services_restart_network()
 {
-    service_restart md380-emu
-    service_restart mmdvm_bridge
-    service_restart analog_bridge
+    local svc
+
+    for svc in ${NETWORK_SERVICES:-}; do
+        service_restart "$svc" || return 1
+    done
 }
 
 ###############################################################################

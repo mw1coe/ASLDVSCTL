@@ -89,6 +89,10 @@ main() {
             command_tg "$@"
             ;;
 
+        slot)
+            command_slot "$@"
+            ;;
+
         *)
             log_error "Unknown command: $command"
             echo

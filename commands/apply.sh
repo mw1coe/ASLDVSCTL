@@ -11,11 +11,9 @@ command_apply() {
 
     profile_validate || return 1
 
-    echo "Applying profile $profile"
-    echo "Name : ${NAME:-}"
-    echo "Mode : ${MODE:-}"
+bridge_configure_network || return 1
 
-    bridge_configure
+services_restart_network || return 1
 
     state_save
 }

@@ -61,7 +61,7 @@ check_service()
     # Services
     #
 
-    for svc in ${SERVICES}
+    for svc in ${CONNECTOR_SERVICES}
     do
         check_service "$svc"
     done

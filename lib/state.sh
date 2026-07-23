@@ -25,8 +25,8 @@ state_load() {
 # Save
 ###############################################################################
 
-state_save() {
-
+state_save()
+{
     mkdir -p "$STATE_DIR"
 
     cat > "$STATE_FILE" <<EOF
@@ -43,8 +43,8 @@ EOF
 # Show
 ###############################################################################
 
-state_show() {
-
+state_show()
+{
     [[ -f "$STATE_FILE" ]] || {
         echo "No active profile."
         return

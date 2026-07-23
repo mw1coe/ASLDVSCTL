@@ -127,11 +127,12 @@ ini_set() {
     local key="$3"
     local value="$4"
 
-    if ini_get "$file" "$section" "$key" >/dev/null; then
-        ini_update "$file" "$section" "$key" "$value"
-    else
-        ini_add "$file" "$section" "$key" "$value"
-    fi
+if ini_section_exists "$file" "$section"; then
+    ini_update "$file" "$section" "$key" "$value"
+else
+    ini_add "$file" "$section" "$key" "$value"
+fi
+
 }
 
 ini_add() {

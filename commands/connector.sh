@@ -12,6 +12,18 @@ command_connector()
     if [[ -z "$connector" ]]; then
         log_error "Usage: asldvsctl connector <name> [status|validate]"
         return 1
+fi
+#
+# Load current runtime state
+#
+state_load 2>/dev/null || true
+
+#
+# Reload active profile if one exists
+#
+if [[ -n "${PROFILE:-}" ]]; then
+    profile_load "$PROFILE" || true
+
     fi
 
     if ! connector_load "$connector"; then

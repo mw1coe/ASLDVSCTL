@@ -16,10 +16,13 @@ connector_status()
     echo "Version   : $(connector_version)"
     echo
 
+    mmdvm_network_summary
+    mmdvm_runtime_summary
+
     echo "Services"
     echo "--------"
 
-    for svc in ${SERVICES}
+    for svc in ${CONNECTOR_SERVICES}
     do
         total=$((total+1))
 

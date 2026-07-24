@@ -1,15 +1,12 @@
+#!/usr/bin/env bash
+#
 ###############################################################################
-# Station Information
+# M17 Status
 ###############################################################################
 
-CALLSIGN=
-DMRID=
+connector_status()
+{
+    echo "Connector : M17"
 
-NODE=
-
-DESCRIPTION=Portable
-
-LOCATION=
-
-LATITUDE=
-LONGITUDE=
+    echo "Service   : $(systemctl is-active usrp2m17 2>/dev/null)"
+}

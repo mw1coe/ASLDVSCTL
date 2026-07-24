@@ -92,6 +92,9 @@ main() {
         slot)
             command_slot "$@"
             ;;
+        install)
+            command_install "$@"
+            ;;
 
         *)
             log_error "Unknown command: $command"
@@ -130,6 +133,7 @@ Commands
   mode
   tg
   slot
+  install
 
   start
   stop

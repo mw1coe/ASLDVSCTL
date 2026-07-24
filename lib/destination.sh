@@ -1,4 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+###############################################################################
+# ASLDVSCTL
+# Destination Library
+###############################################################################
+
+[[ -n "${ASLDVSCTL_DESTINATION_LOADED:-}" ]] && return
+readonly ASLDVSCTL_DESTINATION_LOADED=1
 
 DESTINATION_PATH="${BASE_DIR}/config/destinations"
 

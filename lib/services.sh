@@ -37,19 +37,6 @@ service_stop() {
 # Restart
 ###############################################################################
 
-service_restart() {
-
-    local service="$1"
-
-    log_info "Restarting ${service}"
-
-    sudo systemctl restart "${service}"
-}
-
-###############################################################################
-# Status
-###############################################################################
-
 service_restart()
 {
     local service="$1"
@@ -58,6 +45,10 @@ service_restart()
         log_error "No service specified"
         return 1
     }
+
+###################################################>
+# Status
+###################################################>
 
     log_info "Restarting ${service}"
 

@@ -1,15 +1,15 @@
+#!/usr/bin/env bash
+#
 ###############################################################################
-# Station Information
+# M17 Configuration Generator
 ###############################################################################
 
-CALLSIGN=
-DMRID=
+connector_generate_network()
+{
+    usrp2m17_write_network
+}
 
-NODE=
-
-DESCRIPTION=Portable
-
-LOCATION=
-
-LATITUDE=
-LONGITUDE=
+connector_generate_runtime()
+{
+    return 0
+}

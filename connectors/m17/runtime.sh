@@ -1,15 +1,5 @@
+#!/usr/bin/env bash
+#
 ###############################################################################
-# Station Information
+# M17 Runtime
 ###############################################################################
-
-CALLSIGN=
-DMRID=
-
-NODE=
-
-DESCRIPTION=Portable
-
-LOCATION=
-
-LATITUDE=
-LONGITUDE=

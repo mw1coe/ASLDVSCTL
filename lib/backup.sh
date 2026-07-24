@@ -1,3 +1,12 @@
+#!/usr/bin/env bash
+#
+###############################################################################
+# ASLDVSCTL Backup Library
+###############################################################################
+
+[[ -n "${ASLDVSCTL_BACKUP_LOADED:-}" ]] && return
+readonly ASLDVSCTL_BACKUP_LOADED=1
+
 backup_configs() {
 
     local ts

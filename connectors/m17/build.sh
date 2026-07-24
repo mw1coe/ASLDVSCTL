@@ -1,15 +1,20 @@
+#!/usr/bin/env bash
+#
 ###############################################################################
-# Station Information
+# USRP2M17 Build
 ###############################################################################
 
-CALLSIGN=
-DMRID=
+usrp2m17_clone_source()
+{
+    ...
+}
 
-NODE=
+usrp2m17_build()
+{
+    ...
+}
 
-DESCRIPTION=Portable
-
-LOCATION=
-
-LATITUDE=
-LONGITUDE=
+usrp2m17_install_files()
+{
+    ...
+}

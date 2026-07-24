@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+#
+###############################################################################
+# ASLDVSCTL
+# System Checks Library
+###############################################################################
 
-#
-# Common system check functions
-#
+[[ -n "${ASLDVSCTL_CHECKS_LOADED:-}" ]] && return
+readonly ASLDVSCTL_CHECKS_LOADED=1
 
 check_program() {
     local prog="$1"

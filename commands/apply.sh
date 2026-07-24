@@ -13,7 +13,7 @@ command_apply() {
 
 bridge_configure_network || return 1
 
-services_restart_network || return 1
+#services_restart_network || return 1
 
     state_save
 }

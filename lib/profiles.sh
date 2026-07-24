@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+#
+###############################################################################
+# ASLDVSCTL
+# Profile Management Library
+###############################################################################
+
+[[ -n "${ASLDVSCTL_PROFILES_LOADED:-}" ]] && return
+readonly ASLDVSCTL_PROFILES_LOADED=1
 
 profile_exists() {
     [[ -f "${PROFILE_DIR}/$1.conf" ]]
@@ -32,7 +40,19 @@ profile_load() {
     }
 
     # Clear previous values
-    unset NAME TYPE MODE TG SLOT ADDRESS PORT PASSWORD ANNOUNCE OPTIONS
+ 
+unset \
+    NAME \
+    TYPE \
+    MODE \
+    CONNECTOR \
+    TG \
+    SLOT \
+    ADDRESS \
+    PORT \
+    PASSWORD \
+    ANNOUNCE \
+    OPTIONS
 
     # shellcheck source=/dev/null
     source "${PROFILE_DIR}/${profile}.conf"
@@ -76,16 +96,26 @@ fi
         esac
 
     fi
+
+
+    ###########################################################################
+    # Load Connector
+    ###########################################################################
+
+[[ -n "${CONNECTOR:-}" ]] || {
+    log_error "No connector specified for profile '$profile'"
+    return 1
+}
+
+connector_load "${CONNECTOR}" || {
+    log_error "Unable to load connector '${CONNECTOR}'"
+    return 1
+}
 }
 
 ###############################################################################
 # Legacy Compatibility
 ###############################################################################
-
-# Older profiles used TYPE instead of MODE.
-if [[ -z "${MODE:-}" && -n "${TYPE:-}" ]]; then
-    MODE="${TYPE}"
-fi
 
 profile_validate() {
     local ok=1

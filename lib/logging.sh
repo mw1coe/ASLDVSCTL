@@ -4,6 +4,9 @@
 # ASLDVSCTL Logging Library
 ###############################################################################
 
+[[ -n "${ASLDVSCTL_LOGGING_LOADED:-}" ]] && return
+readonly ASLDVSCTL_LOGGING_LOADED=1
+
 # Default log level
 : "${LOG_LEVEL:=INFO}"
 

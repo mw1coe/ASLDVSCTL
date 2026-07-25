@@ -20,6 +20,7 @@ TRANSACTION_DIR=""
 
 transaction_begin()
 {
+    TRANSACTION_FILES=0
     TRANSACTION_ID="$(date +%Y%m%d-%H%M%S)"
     TRANSACTION_DIR="${BACKUP_DIR}/transactions/${TRANSACTION_ID}"
 
@@ -50,7 +51,9 @@ transaction_backup()
 
     cp -a "$file" "${TRANSACTION_DIR}/${relative}" || return 1
 
-    log_info "Backup: ${file}"
+    ((TRANSACTION_FILES**))    
+
+log_info "Backup: ${file}"
 }
 
 ###############################################################################
@@ -140,6 +143,7 @@ transaction_show()
     if transaction_active
     then
         printf "ID        : %s\n" "$TRANSACTION_ID"
+        printf "Files     : %s\n" "$TRANSACTION_FILES"
         printf "Directory : %s\n" "$TRANSACTION_DIR"
     else
         echo "No active transaction."

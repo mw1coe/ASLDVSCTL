@@ -112,15 +112,23 @@ connector_run_install()
 
 connector_summary()
 {
-    echo
     echo "Connector"
     echo "---------"
 
-    if [[ -n "${CONNECTOR:-}" ]]; then
-        printf "Current : %s\n" "$CONNECTOR"
-    else
-        printf "Current : <none>\n"
+    if [[ -z "${CONNECTOR:-}" ]]
+    then
+        echo "Current     : <none>"
+        echo
+        return 0
     fi
+
+    printf "Current     : %s\n" "${CONNECTOR}"
+    printf "Name        : %s\n" "${CONNECTOR_NAME:-<unknown>}"
+    printf "Version     : %s\n" "${CONNECTOR_VERSION:-<unknown>}"
+    printf "Mode        : %s\n" "${CONNECTOR_MODE:-<unknown>}"
+    printf "Description : %s\n" "${CONNECTOR_DESCRIPTION:-<unknown>}"
+    printf "Author      : %s\n" "${CONNECTOR_AUTHOR:-<unknown>}"
+    printf "Status      : %s\n" "${CONNECTOR_STATUS:-<unknown>}"
 
     echo
 }

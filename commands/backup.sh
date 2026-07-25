@@ -1,3 +1,9 @@
+#!/usr/bin/env bash
+#
+# ASLDVSCTL
+# <Description>
+#
+
 command_backup()
 {
     [[ $# -eq 0 ]] || {

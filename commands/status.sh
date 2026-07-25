@@ -1,3 +1,9 @@
+#!/usr/bin/env bash
+#
+# ASLDVSCTL
+# <Description>
+#
+
 command_status()
 {
     printf "ASLDVSCTL %s\n\n" "${ASLDVSCTL_VERSION}"

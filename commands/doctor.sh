@@ -1,17 +1,28 @@
+#!/usr/bin/env bash
+#
+# ASLDVSCTL
+# Doctor Command
+#
+
 command_doctor()
 {
-    echo "========================================"
-    echo " ASLDVSCTL Doctor"
-    echo "========================================"
+    [[ $# -eq 0 ]] || {
+        echo "Usage: asldvsctl doctor"
+        return 1
+    }
+
+    echo "ASLDVSCTL Doctor"
+    echo "================"
     echo
 
     doctor_project
     doctor_station
-    doctor_configuration
-    doctor_connector
-    doctor_services
     doctor_runtime
+    doctor_services
+    doctor_connector
 
-    echo
-    echo "Doctor complete."
+    echo "Doctor completed."
+
+    return 0
 }
+

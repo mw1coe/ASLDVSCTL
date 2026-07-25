@@ -30,6 +30,7 @@ source "${LIB_DIR}/ini.sh"
 source "${LIB_DIR}/station.sh"
 source "${LIB_DIR}/project.sh"
 source "${LIB_DIR}/transaction.sh"
+source "${LIB_DIR}/doctor.sh"
 
 ###############################################################################
 # Load Commands
@@ -99,10 +100,19 @@ main() {
             command_install "$@"
             ;;
         backup)
-            command_backup "$@" 
+            command_backup "$@"
             ;;
         restore)
             command_restore "$@"
+            ;;
+        logs)
+            command_logs "$@"
+            ;;
+        info)
+            command_info "$@"
+            ;;
+        doctor)
+            command_doctor "$@"
             ;;
 
         *)

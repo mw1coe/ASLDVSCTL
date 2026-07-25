@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
-# Common connector helper functions
+# ASLDVSCTL
+# <Description>
 #
 
 connector_error()

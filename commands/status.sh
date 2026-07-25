@@ -1,11 +1,25 @@
 #!/usr/bin/env bash
 
-command_status() {
+command_status()
+{
+    printf "ASLDVSCTL %s\n\n" "${ASLDVSCTL_VERSION}"
 
-    echo "ASLDVSCTL ${ASLDVSCTL_VERSION:-2.0.0}"
+    printf "Project\n"
+    printf '%s\n' "-------"
+    printf "Root       : %s\n" "${PROJECT_ROOT}"
+    printf "Version    : %s\n\n" "${ASLDVSCTL_VERSION}"
+
+    station_summary
     echo
 
-    echo "Project Root : ${PROJECT_ROOT}"
-    echo "Commands     : ${COMMAND_DIR}"
+  #  state_summary
+  #  echo
 
+ #   connector_summary
+ #   echo
+
+    service_summary
+    echo
+
+    system_summary
 }

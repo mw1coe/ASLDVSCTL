@@ -102,3 +102,30 @@ service_running() {
 
     systemctl is-active --quiet "${service}"
 }
+
+###############################################################################
+# Summary
+###############################################################################
+
+service_summary()
+{
+    local svc
+
+    printf "Services\n"
+    printf "%s\n" "--------"
+
+    for svc in \
+        asterisk \
+        analog_bridge \
+        mmdvm_bridge \
+        md380-emu \
+        usrp2m17
+    do
+        if systemctl is-active --quiet "$svc" 2>/dev/null
+        then
+            printf "%-18s PASS\n" "$svc"
+        else
+            printf "%-18s FAIL\n" "$svc"
+        fi
+    done
+}

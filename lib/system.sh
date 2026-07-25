@@ -198,3 +198,25 @@ check_system_requirements() {
     return 0
 }
 
+###############################################################################
+# Summary
+###############################################################################
+
+system_summary()
+{
+    local virt ip
+
+    virt="$(systemd-detect-virt 2>/dev/null)"
+    [[ -n "$virt" ]] || virt="Bare Metal"
+
+    ip="$(get_ip_address 2>/dev/null)"
+    [[ -n "$ip" ]] || ip="Unknown"
+
+    printf "Environment\n"
+    printf "%s\n" "-----------"
+    printf "%-10s : %s\n" "Type"     "$virt"
+    printf "%-10s : %s\n" "Hostname" "$(get_hostname)"
+    printf "%-10s : %s\n" "Kernel"   "$(get_kernel)"
+    printf "%-10s : %s\n" "Arch"     "$(get_architecture)"
+    printf "%-10s : %s\n" "IP"       "$ip"
+}

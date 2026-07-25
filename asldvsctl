@@ -27,6 +27,9 @@ source "${LIB_DIR}/profiles.sh"
 source "${LIB_DIR}/connector.sh"
 source "${LIB_DIR}/bridge.sh"
 source "${LIB_DIR}/ini.sh"
+source "${LIB_DIR}/station.sh"
+source "${LIB_DIR}/project.sh"
+source "${LIB_DIR}/transaction.sh"
 
 ###############################################################################
 # Load Commands
@@ -94,6 +97,12 @@ main() {
             ;;
         install)
             command_install "$@"
+            ;;
+        backup)
+            command_backup "$@" 
+            ;;
+        restore)
+            command_restore "$@"
             ;;
 
         *)

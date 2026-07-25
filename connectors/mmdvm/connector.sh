@@ -47,4 +47,17 @@ connector_disconnect()
     return 0
 }
 
+###############################################################################
+# Transaction Files
+###############################################################################
+
+connector_transaction_files()
+{
+    cat <<EOF
+${MMDVM_INI}
+${ANALOG_INI}
+${DVSWITCH_INI}
+EOF
+}
+
 

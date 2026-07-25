@@ -105,3 +105,22 @@ connector_run_install()
 
     connector_install
 }
+
+###############################################################################
+# Summary
+###############################################################################
+
+connector_summary()
+{
+    echo
+    echo "Connector"
+    echo "---------"
+
+    if [[ -n "${CONNECTOR:-}" ]]; then
+        printf "Current : %s\n" "$CONNECTOR"
+    else
+        printf "Current : <none>\n"
+    fi
+
+    echo
+}

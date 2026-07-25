@@ -13,16 +13,19 @@ source "${PROJECT_ROOT}/lib/logging.sh"
 readonly DEFAULT_CONFIG="${PROJECT_ROOT}/config/default.conf"
 readonly USER_CONFIG="/etc/asldvsctl.conf"
 
-load_config() {
+load_config()
+{
     if [[ -f "${USER_CONFIG}" ]]; then
         # shellcheck disable=SC1090
         source "${USER_CONFIG}"
-        log_info "Loaded ${USER_CONFIG}"
+        CONFIG_SOURCE="user"
     else
         # shellcheck disable=SC1090
         source "${DEFAULT_CONFIG}"
-        log_warn "Using default configuration"
+        CONFIG_SOURCE="default"
     fi
+
+    return 0
 }
 
 save_config() {

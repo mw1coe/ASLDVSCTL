@@ -1,0 +1,8 @@
+runtime_apply_profile()
+runtime_set_tg()
+runtime_set_slot()
+runtime_restart()
+runtime_reload()
+runtime_connect()
+runtime_disconnect()
+runtime_status()

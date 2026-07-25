@@ -52,3 +52,29 @@ state_show()
 
     cat "$STATE_FILE"
 }
+
+###############################################################################
+# Summary
+###############################################################################
+
+state_summary()
+{
+    echo
+    echo "Runtime"
+    echo "-------"
+
+    if ! state_load; then
+        echo "No active profile."
+        echo
+        return
+    fi
+
+    printf "Profile   : %s\n" "${PROFILE:-<unset>}"
+    printf "Name      : %s\n" "${NAME:-<unset>}"
+    printf "Mode      : %s\n" "${MODE:-<unset>}"
+    printf "Connector : %s\n" "${CONNECTOR:-<unset>}"
+    printf "TG        : %s\n" "${TG:-<unset>}"
+    printf "Slot      : %s\n" "${SLOT:-<unset>}"
+
+    echo
+}

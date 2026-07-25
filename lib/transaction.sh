@@ -51,7 +51,7 @@ transaction_backup()
 
     cp -a "$file" "${TRANSACTION_DIR}/${relative}" || return 1
 
-    ((TRANSACTION_FILES**))    
+    ((TRANSACTION_FILES++))
 
 log_info "Backup: ${file}"
 }

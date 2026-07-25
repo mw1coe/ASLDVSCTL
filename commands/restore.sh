@@ -13,6 +13,13 @@ command_restore()
 
     transaction_rollback || return 1
 
+    state_load || true
+
+    [[ -n "${CONNECTOR:-}" ]] && connector_load "$CONNECTOR"
+
+    services_restart_network || return 1
+    services_restart_runtime || return 1
+
     log_info "Restore complete"
 
     return 0

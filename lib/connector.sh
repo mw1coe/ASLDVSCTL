@@ -18,11 +18,13 @@ connector_exists() {
     [[ -f "${CONNECTOR_PATH}/$1/connector.sh" ]]
 }
 
-connector_load() {
+connector_load()
+{
     local name="$1"
     local file="${CONNECTOR_PATH}/${name}/connector.sh"
 
-    [[ -f "$file" ]] || { return 1
+    [[ -f "$file" ]] || {
+        return 1
     }
 
     unset -f \
@@ -41,6 +43,14 @@ connector_load() {
     source "$file"
 
     local rc=$?
+
+    if [[ $rc -eq 0 ]]; then
+        CONNECTOR="$name"
+
+        if declare -F connector_mode >/dev/null; then
+            MODE="$(connector_mode)"
+        fi
+    fi
 
     return "$rc"
 }
@@ -145,7 +155,7 @@ connector_show()
 
 connector_current()
 {
-    state_load 2>/dev/null || true
+    state_load >/dev/null 2>&1 || true
 
     if [[ -z "${CONNECTOR:-}" ]]; then
         log_error "No active connector."

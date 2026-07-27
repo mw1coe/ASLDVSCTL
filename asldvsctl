@@ -35,6 +35,7 @@ source "${LIB_DIR}/station_config.sh"
 source "${LIB_DIR}/profile.sh"
 source "${LIB_DIR}/service.sh"
 source "${PROJECT_ROOT}/lib/runtime.sh"
+source "${PROJECT_ROOT}/lib/mode.sh"
 
 ###############################################################################
 # Load Commands
@@ -123,6 +124,9 @@ main() {
             ;;
         runtime)
             command_runtime "$@"
+            ;;
+        mode)
+            command_mode "$@"
             ;;
 
         *)

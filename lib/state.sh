@@ -9,16 +9,31 @@ readonly ASLDVSCTL_STATE_LOADED=1
 
 readonly STATE_FILE="${STATE_DIR}/current.state"
 
+echo "STATE_DIR=$STATE_DIR"
+echo "STATE_FILE=$STATE_FILE"
+echo "PWD=$(pwd)"
+echo "Saving state..."
+
 ###############################################################################
 # Load
 ###############################################################################
 
-state_load() {
+state_load()
+{
+    [[ -f "$STATE_FILE" ]] || {
+        TG="$DEFAULT_TG"
+        SLOT="$DEFAULT_SLOT"
+        return 1
+    }
 
-    [[ -f "$STATE_FILE" ]] || return 1
-
-    # shellcheck source=/dev/null
     source "$STATE_FILE"
+
+    TG="${TG:-$DEFAULT_TG}"
+    SLOT="${SLOT:-$DEFAULT_SLOT}"
+
+    export PROFILE NAME MODE CONNECTOR TG SLOT
+
+    return 0
 }
 
 ###############################################################################

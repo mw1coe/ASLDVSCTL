@@ -28,7 +28,13 @@ load_config()
     return 0
 }
 
-save_config() {
+save_config()
+
+{
+    [[ -w "$(dirname "$USER_CONFIG")" ]] || {
+        log_error "Root privileges are required to update ${USER_CONFIG}."
+        return 1
+    }
 
 cat > "${USER_CONFIG}" <<EOF
 CALLSIGN=${CALLSIGN}
@@ -51,3 +57,95 @@ LOG_LEVEL=${LOG_LEVEL}
 EOF
 
 }
+
+###############################################################################
+# Get Configuration Value
+###############################################################################
+
+config_set()
+{
+    local key="$1"
+    local value="$2"
+
+    case "$key" in
+        CALLSIGN|NODE|DMR_ID|ASL_PASSWORD|BM_PASSWORD|TGIF_PASSWORD|\
+        DEFAULT_MODE|DEFAULT_TG|DEFAULT_SLOT|\
+        USRP_HOST|USRP_PORT|USRP_NODE|LOG_LEVEL)
+            ;;
+        *)
+            log_error "Unknown configuration key: $key"
+            return 1
+            ;;
+    esac
+
+    config_validate "$key" "$value" || {
+        log_error "Invalid value for ${key}"
+        return 1
+    }
+
+    printf -v "$key" '%s' "$value"
+
+    save_config || return 1
+
+    return 0
+}
+
+###############################################################################
+# Configuration Exists?
+###############################################################################
+
+config_exists()
+{
+    local key="$1"
+
+    [[ -v "$key" ]]
+}
+
+###############################################################################
+# Validate Configuration Value
+###############################################################################
+
+config_validate()
+{
+    local key="$1"
+    local value="$2"
+
+    case "$key" in
+
+        CALLSIGN)
+            [[ "$value" =~ ^[A-Za-z0-9/-]+$ ]] || return 1
+            ;;
+
+        NODE)
+            [[ "$value" =~ ^[0-9]+$ ]] || return 1
+            ;;
+
+        DMR_ID)
+            [[ "$value" =~ ^[0-9]{6,9}$ ]] || return 1
+            ;;
+
+        DEFAULT_TG)
+            [[ "$value" =~ ^[0-9]+$ ]] || return 1
+            ;;
+
+        DEFAULT_SLOT)
+            [[ "$value" =~ ^[12]$ ]] || return 1
+            ;;
+
+        USRP_PORT)
+            [[ "$value" =~ ^[0-9]+$ ]] || return 1
+            ;;
+
+        USRP_NODE)
+            [[ "$value" =~ ^[0-9]+$ ]] || return 1
+            ;;
+
+        *)
+            return 0
+            ;;
+    esac
+
+    return 0
+}
+
+

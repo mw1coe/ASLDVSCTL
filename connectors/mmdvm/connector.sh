@@ -11,7 +11,7 @@ source "${CONNECTOR_DIR}/metadata.conf"
 source "${CONNECTOR_DIR}/network.sh"
 source "${CONNECTOR_DIR}/dvswitch.sh"
 source "${CONNECTOR_DIR}/runtime.sh"
-
+source "${CONNECTOR_DIR}/install.sh"
 source "${CONNECTOR_DIR}/services.sh"
 source "${CONNECTOR_DIR}/status.sh"
 source "${CONNECTOR_DIR}/generate.sh"

@@ -45,13 +45,25 @@ connector_load() {
     return "$rc"
 }
 
-connector_list() {
-    find "${CONNECTOR_PATH}" \
-        -mindepth 1 \
-        -maxdepth 1 \
-        -type d \
-        ! -name common \
-        -printf "%f\n" | sort
+connector_list()
+{
+    local dir
+    local name
+
+    printf "Available Connectors\n"
+    printf "%s\n" "--------------------"
+
+    for dir in "${CONNECTORS_DIR}"/*; do
+        [[ -d "$dir" ]] || continue
+
+        name="$(basename "$dir")"
+
+        [[ "$name" == "common" ]] && continue
+
+        printf "%s\n" "$name"
+    done
+
+    return 0
 }
 
 ###############################################################################
@@ -69,41 +81,25 @@ connector_info() {
 # Validation
 ###############################################################################
 
-connector_run_validate()
+connector_validate()
 {
-    local name="$1"
+    printf "Connector Validation\n"
+    printf "%s\n" "--------------------"
 
-    connector_exists "$name" || return 1
-
-    connector_load "$name" || return 1
-
-    declare -F connector_validate >/dev/null || return 1
-
-    connector_validate
-}
-
-
-###############################################################################
-# Installation
-###############################################################################
-
-connector_run_install()
-{
-    local name="$1"
-
-    connector_exists "$name" || {
-        log_error "Unknown connector '$name'"
+    [[ -n "${CONNECTOR_NAME:-}" ]] || {
+        log_error "Connector metadata not loaded."
         return 1
     }
 
-    connector_load "$name" || return 1
+    printf "PASS  Metadata\n"
 
-    declare -F connector_install >/dev/null || {
-        log_error "Connector '$name' does not support installation"
-        return 1
-    }
+    if declare -F connector_run_validate >/dev/null; then
+        connector_run_validate
+    else
+        printf "WARN  No connector-specific validation\n"
+    fi
 
-    connector_install
+    return 0
 }
 
 ###############################################################################
@@ -131,4 +127,66 @@ connector_summary()
     printf "Status      : %s\n" "${CONNECTOR_STATUS:-<unknown>}"
 
     echo
+}
+
+connector_show()
+{
+    printf "Connector\n"
+    printf "%s\n" "---------"
+
+    printf "Name        : %s\n" "${CONNECTOR_NAME:-Unknown}"
+    printf "Version     : %s\n" "${CONNECTOR_VERSION:-Unknown}"
+    printf "Author      : %s\n" "${CONNECTOR_AUTHOR:-Unknown}"
+    printf "Description : %s\n" "${CONNECTOR_DESCRIPTION:-None}"
+    printf "Mode        : %s\n" "${CONNECTOR_MODE:-Unknown}"
+
+    return 0
+}
+
+connector_current()
+{
+    state_load 2>/dev/null || true
+
+    if [[ -z "${CONNECTOR:-}" ]]; then
+        log_error "No active connector."
+        return 1
+    fi
+
+    connector_load "${CONNECTOR}" || return 1
+
+    connector_show
+}
+
+connector_install()
+{
+    [[ -n "${CONNECTOR_NAME:-}" ]] || {
+        log_error "Connector metadata not loaded."
+        return 1
+    }
+
+    if declare -F connector_run_install >/dev/null; then
+        connector_run_install
+    else
+        log_error "Connector '${CONNECTOR_NAME}' does not support installation."
+        return 1
+    fi
+
+    return 0
+}
+
+connector_uninstall()
+{
+    [[ -n "${CONNECTOR_NAME:-}" ]] || {
+        log_error "Connector metadata not loaded."
+        return 1
+    }
+
+    if declare -F connector_run_uninstall >/dev/null; then
+        connector_run_uninstall
+    else
+        log_error "Connector '${CONNECTOR_NAME}' does not support uninstallation."
+        return 1
+    fi
+
+    return 0
 }

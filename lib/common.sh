@@ -36,7 +36,7 @@ readonly STATE_DIR="${BASE_DIR}/state"
 readonly LOG_DIR="${BASE_DIR}/logs"
 readonly BACKUP_DIR="${BASE_DIR}/backups"
 readonly SCRIPT_DIR="${BASE_DIR}/scripts"
-
+readonly CONNECTORS_DIR="${PROJECT_ROOT}/connectors"
 readonly COMMAND_DIR="${PROJECT_ROOT}/commands"
 
 ###############################################################################

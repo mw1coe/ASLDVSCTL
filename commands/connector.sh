@@ -6,43 +6,71 @@
 
 command_connector()
 {
-    local connector="${1:-}"
-    local action="${2:-status}"
-
-    if [[ -z "$connector" ]]; then
-        log_error "Usage: asldvsctl connector <name> [status|validate]"
+    [[ $# -ge 1 ]] || {
+        echo "Usage:"
+        echo "  asldvsctl connector list"
+        echo "  asldvsctl connector show <connector>"
+        echo "  asldvsctl connector status <connector>"
+        echo "  asldvsctl connector validate <connector>"
         return 1
-fi
-#
-# Load current runtime state
-#
-state_load 2>/dev/null || true
+    }
 
-#
-# Reload active profile if one exists
-#
-if [[ -n "${PROFILE:-}" ]]; then
-    profile_load "$PROFILE" || true
+    case "$1" in
+        list)
+            connector_list
+            ;;
 
-    fi
+        show)
+            [[ $# -eq 2 ]] || {
+                echo "Usage: asldvsctl connector show <connector>"
+                return 1
+            }
 
-    if ! connector_load "$connector"; then
-        log_error "Connector '$connector' not found."
-        return 1
-    fi
+            connector_load "$2" || return 1
+            connector_show
+            ;;
 
-    case "$action" in
         status)
+            connector_load "$2" || return 1
             connector_status
             ;;
 
-        validate)
+            validate)
+            connector_load "$2" || return 1
             connector_validate
             ;;
 
+            current)
+            connector_current
+            ;;
+
+            install)
+            [[ $# -eq 2 ]] || {
+                echo "Usage: asldvsctl connector install <connector>"
+                return 1
+            }
+
+            connector_load "$2" || return 1
+            connector_install
+            ;;
+
         *)
-            log_error "Unknown connector action: $action"
+            log_error "Unknown connector command: $1"
             return 1
             ;;
+
+        uninstall)
+            [[ $# -eq 2 ]] || {
+                echo "Usage: asldvsctl connector uninstall <connector>"
+                return 1
+            }
+
+            connector_load "$2" || return 1
+            connector_uninstall
+            ;;
+
     esac
+
+    return 0
 }
+

@@ -31,6 +31,10 @@ source "${LIB_DIR}/station.sh"
 source "${LIB_DIR}/project.sh"
 source "${LIB_DIR}/transaction.sh"
 source "${LIB_DIR}/doctor.sh"
+source "${LIB_DIR}/station_config.sh"
+source "${LIB_DIR}/profile.sh"
+source "${LIB_DIR}/service.sh"
+source "${PROJECT_ROOT}/lib/runtime.sh"
 
 ###############################################################################
 # Load Commands
@@ -113,6 +117,12 @@ main() {
             ;;
         doctor)
             command_doctor "$@"
+            ;;
+        station)
+            command_station "$@"
+            ;;
+        runtime)
+            command_runtime "$@"
             ;;
 
         *)

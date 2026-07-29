@@ -75,9 +75,11 @@ doctor_check_configuration()
     printf "Configuration\n"
     printf "%s\n" "-------------"
 
-    [[ -f "$CONFIG_FILE" ]] \
-        && doctor_pass "Configuration file" \
-        || doctor_fail "Configuration file"
+if [[ -f "$CONFIG_FILE" ]]; then
+    doctor_pass "Configuration file"
+else
+    doctor_fail "Configuration file"
+fi
 
     printf "\n"
 }
@@ -93,9 +95,23 @@ doctor_check_station()
 
     station_validate >/dev/null 2>&1
 
-    [[ -n "${CALLSIGN:-}" ]] && doctor_pass "Callsign" || doctor_fail "Callsign"
-    [[ -n "${NODE:-}" ]]     && doctor_pass "Node"     || doctor_fail "Node"
-    [[ -n "${DMR_ID:-}" ]]   && doctor_pass "DMR ID"   || doctor_fail "DMR ID"
+if [[ -n "${CALLSIGN:-}" ]]; then
+    doctor_pass "Callsign"
+else
+    doctor_fail "Callsign"
+fi
+
+if [[ -n "${NODE:-}" ]]; then
+    doctor_pass "Node"
+else
+    doctor_fail "Node"
+fi
+
+if [[ -n "${DMR_ID:-}" ]]; then
+    doctor_pass "DMR ID"
+else
+    doctor_fail "DMR ID"
+fi
 
     printf "\n"
 }
@@ -111,11 +127,35 @@ doctor_check_runtime()
 
     state_load >/dev/null 2>&1 || true
 
-    [[ -n "${PROFILE:-}" ]]   && doctor_pass "Profile"   || doctor_fail "Profile"
-    [[ -n "${CONNECTOR:-}" ]] && doctor_pass "Connector" || doctor_fail "Connector"
-    [[ -n "${MODE:-}" ]]      && doctor_pass "Mode"      || doctor_fail "Mode"
-    [[ -n "${TG:-}" ]]        && doctor_pass "Talkgroup" || doctor_fail "Talkgroup"
-    [[ -n "${SLOT:-}" ]]      && doctor_pass "Slot"      || doctor_fail "Slot"
+if [[ -n "${PROFILE:-}" ]]; then
+    doctor_pass "Profile"
+else
+    doctor_fail "Profile"
+fi
+
+if [[ -n "${CONNECTOR:-}" ]]; then
+    doctor_pass "Connector"
+else
+    doctor_fail "Connector"
+fi
+
+if [[ -n "${MODE:-}" ]]; then
+    doctor_pass "Mode"
+else
+    doctor_fail "Mode"
+fi
+
+if [[ -n "${TG:-}" ]]; then
+    doctor_pass "Talkgroup"
+else
+    doctor_fail "Talkgroup"
+fi
+
+if [[ -n "${SLOT:-}" ]]; then
+    doctor_pass "Slot"
+else
+    doctor_fail "Slot"
+fi
 
     printf "\n"
 }
@@ -199,9 +239,11 @@ doctor_check_state()
     printf "State\n"
     printf "%s\n" "-----"
 
-    [[ -f "$STATE_FILE" ]] \
-        && doctor_pass "State file" \
-        || doctor_fail "State file"
+    if [[ -f "$STATE_FILE" ]]; then
+        doctor_pass "State file"
+    else
+        doctor_fail "State file"
+    fi
 
     printf "\n"
 }
@@ -215,9 +257,11 @@ doctor_check_transactions()
     printf "Transactions\n"
     printf "%s\n" "------------"
 
-    [[ -d "$BACKUP_DIR" ]] \
-        && doctor_pass "Backup directory" \
-        || doctor_fail "Backup directory"
+    if [[ -d "$BACKUP_DIR" ]]; then
+        doctor_pass "Backup directory"
+    else
+        doctor_fail "Backup directory"
+    fi
 
     printf "\n"
 }
@@ -226,14 +270,16 @@ doctor_check_transactions()
 # Logs
 ###############################################################################
 
-doctor_check_logs()
+doctor_check_logging()
 {
-    printf "Logs\n"
-    printf "%s\n" "----"
+    printf "Logging\n"
+    printf "%s\n" "-------"
 
-    [[ -d "$LOG_DIR" ]] \
-        && doctor_pass "Log directory" \
-        || doctor_fail "Log directory"
+    if [[ -f "${BASE_DIR}/lib/logging.sh" ]]; then
+        doctor_pass "Logging library"
+    else
+        doctor_fail "Logging library"
+    fi
 
     printf "\n"
 }

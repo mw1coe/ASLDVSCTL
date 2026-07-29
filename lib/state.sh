@@ -9,11 +9,6 @@ readonly ASLDVSCTL_STATE_LOADED=1
 
 readonly STATE_FILE="${STATE_DIR}/current.state"
 
-echo "STATE_DIR=$STATE_DIR"
-echo "STATE_FILE=$STATE_FILE"
-echo "PWD=$(pwd)"
-echo "Saving state..."
-
 ###############################################################################
 # Load
 ###############################################################################
@@ -26,6 +21,7 @@ state_load()
         return 1
     }
 
+    # shellcheck disable=SC1090
     source "$STATE_FILE"
 
     TG="${TG:-$DEFAULT_TG}"
@@ -61,8 +57,8 @@ EOF
 state_show()
 {
     [[ -f "$STATE_FILE" ]] || {
-        echo "No active profile."
-        return
+        echo "No runtime state."
+        return 1
     }
 
     cat "$STATE_FILE"

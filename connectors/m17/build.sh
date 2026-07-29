@@ -6,15 +6,15 @@
 
 usrp2m17_clone_source()
 {
-    ...
+    #todo
 }
 
 usrp2m17_build()
 {
-    ...
+    #todo
 }
 
 usrp2m17_install_files()
 {
-    ...
+    #todo
 }

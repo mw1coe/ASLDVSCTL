@@ -38,11 +38,6 @@ transaction_backup()
     local file="$1"
     local relative
 
-    [[ -n "$TRANSACTION_DIR" ]] || {
-        log_error "Transaction not started"
-        return 1
-    }
-
     [[ -f "$file" ]] || return 0
 
     relative="${file#/}"
@@ -53,7 +48,7 @@ transaction_backup()
 
     ((TRANSACTION_FILES++))
 
-log_info "Backup: ${file}"
+    log_info "Backup: ${file}"
 }
 
 ###############################################################################
@@ -78,7 +73,8 @@ transaction_rollback()
 
     while IFS= read -r file
     do
-        target="/${file#${TRANSACTION_DIR}/}"
+
+        target="/${file#"${TRANSACTION_DIR}"/}"
 
         mkdir -p "$(dirname "$target")"
 

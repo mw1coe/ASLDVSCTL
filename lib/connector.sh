@@ -200,3 +200,37 @@ connector_uninstall()
 
     return 0
 }
+
+connector_find_by_mode()
+{
+    local mode="${1^^}"
+    local dir
+
+    for dir in "${CONNECTOR_PATH}"/*; do
+        [[ -d "$dir" ]] || continue
+        [[ -f "$dir/metadata.conf" ]] || continue
+
+        # Clear any metadata from the previous connector
+        unset \
+            CONNECTOR_NAME \
+            CONNECTOR_VERSION \
+            CONNECTOR_MODE \
+            CONNECTOR_DESCRIPTION \
+            CONNECTOR_AUTHOR \
+            CONNECTOR_SERVICES \
+            NETWORK_SERVICES \
+            RUNTIME_SERVICES \
+            CONNECTOR_STATUS
+
+        # shellcheck source=/dev/null
+        source "$dir/metadata.conf"
+
+        if [[ "${CONNECTOR_MODE^^}" == "$mode" ]]; then
+            basename "$dir"
+            return 0
+        fi
+    done
+
+    return 1
+}
+

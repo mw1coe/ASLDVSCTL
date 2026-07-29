@@ -43,16 +43,20 @@ profile_load() {
  
 unset \
     NAME \
+    DESCRIPTION \
     TYPE \
     MODE \
     CONNECTOR \
     TG \
     SLOT \
+    DEFAULT_TG \
+    DEFAULT_SLOT \
     ADDRESS \
     PORT \
     PASSWORD \
     ANNOUNCE \
     OPTIONS
+
 
     # shellcheck source=/dev/null
     source "${PROFILE_DIR}/${profile}.conf"
@@ -108,9 +112,25 @@ fi
 }
 
 connector_load "${CONNECTOR}" || {
-    log_error "Unable to load connector '${CONNECTOR}'"
+    log_error "Unable to load connector '$CONNECTOR'"
     return 1
 }
+
+    export \
+        PROFILE \
+        NAME \
+        DESCRIPTION \
+        MODE \
+        CONNECTOR \
+        DEFAULT_TG \
+        DEFAULT_SLOT \
+        ADDRESS \
+        PORT \
+        PASSWORD \
+        ANNOUNCE \
+        OPTIONS
+
+    return 0
 }
 
 ###############################################################################

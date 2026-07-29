@@ -19,19 +19,19 @@ DOCTOR_FAIL=0
 doctor_pass()
 {
     printf "PASS  %s\n" "$1"
-    ((DOCTOR_PASS++))
+    ((++DOCTOR_PASS))
 }
 
 doctor_warn()
 {
     printf "WARN  %s\n" "$1"
-    ((DOCTOR_WARN++))
+    ((++DOCTOR_WARN))
 }
 
 doctor_fail()
 {
     printf "FAIL  %s\n" "$1"
-    ((DOCTOR_FAIL++))
+    ((++DOCTOR_FAIL))
 }
 
 ###############################################################################
@@ -40,30 +40,33 @@ doctor_fail()
 
 doctor_run()
 {
-    DOCTOR_PASS=0
-    DOCTOR_WARN=0
-    DOCTOR_FAIL=0
 
-    printf "ASLDVSCTL Doctor\n"
-    printf "================\n\n"
+doctor_check_configuration
 
-    doctor_check_configuration
-    doctor_check_station
-    doctor_check_runtime
-    doctor_check_profiles
-    doctor_check_connectors
-    doctor_check_services
-    doctor_check_state
-    doctor_check_transactions
-    doctor_check_logs
+doctor_check_station || true
 
-    printf "\nSummary\n"
-    printf "%s\n" "-------"
-    printf "PASS  %d\n" "$DOCTOR_PASS"
-    printf "WARN  %d\n" "$DOCTOR_WARN"
-    printf "FAIL  %d\n" "$DOCTOR_FAIL"
+doctor_check_runtime || true
 
-    return 0
+doctor_check_profiles || true
+
+doctor_check_connectors || true
+
+doctor_check_services || true
+
+doctor_check_state || true
+
+doctor_check_transactions || true
+
+doctor_check_logging || true
+
+printf "\nSummary\n"
+printf "%s\n" "-------"
+printf "PASS  %d\n" "$DOCTOR_PASS"
+printf "WARN  %d\n" "$DOCTOR_WARN"
+printf "FAIL  %d\n" "$DOCTOR_FAIL"
+
+return 0
+
 }
 
 ###############################################################################

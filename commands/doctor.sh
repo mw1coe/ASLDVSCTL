@@ -11,18 +11,7 @@ command_doctor()
         return 1
     }
 
-    echo "ASLDVSCTL Doctor"
-    echo "================"
-    echo
-
-    doctor_project
-    doctor_station
-    doctor_runtime
-    doctor_services
-    doctor_connector
-
-    echo "Doctor completed."
+    doctor_run
 
     return 0
 }
-

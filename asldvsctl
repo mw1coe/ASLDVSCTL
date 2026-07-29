@@ -37,6 +37,8 @@ source "${LIB_DIR}/common.sh"
 source "${LIB_DIR}/status.sh"
 source "${PROJECT_ROOT}/lib/runtime.sh"
 source "${PROJECT_ROOT}/lib/mode.sh"
+source "${LIB_DIR}/dump.sh"
+source "${COMMAND_DIR}/dump.sh"
 
 ###############################################################################
 # Load Commands
@@ -127,6 +129,10 @@ main() {
             command_runtime "$@"
             ;;
 
+        dump) 
+            command_dump
+            ;;
+
         *)
             log_error "Unknown command: $command"
             echo
@@ -181,4 +187,5 @@ EOF
 }
 
 main "$@"
+
 

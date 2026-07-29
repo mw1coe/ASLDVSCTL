@@ -19,15 +19,43 @@ profile_list() {
     done | sort -V
 }
 
-profile_show() {
+profile_show()
+{
     local profile="$1"
 
-    if profile_exists "$profile"; then
-        cat "${PROFILE_DIR}/${profile}.conf"
-    else
-        log_error "Profile '$profile' not found."
-        return 1
-    fi
+    profile_load "$profile" || return 1
+
+    printf "Profile\n"
+    printf "%s\n" "-------"
+
+    printf "ID          : %s\n" "$profile"
+    printf "Name        : %s\n" "${NAME:-Unknown}"
+    printf "Description : %s\n" "${DESCRIPTION:-None}"
+
+    printf "\nRuntime\n"
+    printf "%s\n" "-------"
+
+    printf "Mode        : %s\n" "${MODE:-Unknown}"
+    printf "Connector   : %s\n" "${CONNECTOR:-Unknown}"
+
+    printf "\nNetwork\n"
+    printf "%s\n" "-------"
+
+    printf "Address     : %s\n" "${ADDRESS:-None}"
+    printf "Port        : %s\n" "${PORT:-None}"
+
+    printf "\nDefaults\n"
+    printf "%s\n" "--------"
+
+    printf "Talkgroup   : %s\n" "${DEFAULT_TG:-None}"
+    printf "Slot        : %s\n" "${DEFAULT_SLOT:-None}"
+
+    printf "\nAudio\n"
+    printf "%s\n" "-----"
+
+    printf "Announce    : %s\n" "${ANNOUNCE:-None}"
+
+    return 0
 }
 
 profile_load() {

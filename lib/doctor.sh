@@ -75,7 +75,7 @@ doctor_check_configuration()
     printf "Configuration\n"
     printf "%s\n" "-------------"
 
-if [[ -f "$CONFIG_FILE" ]]; then
+if [[ -f "$SYSTEM_CONFIG" ]]; then
     doctor_pass "Configuration file"
 else
     doctor_fail "Configuration file"
